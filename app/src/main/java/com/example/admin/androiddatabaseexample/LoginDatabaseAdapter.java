@@ -66,16 +66,13 @@ public class LoginDatabaseAdapter {
     // method to insert a record in Table
     public String insertEntry(String firstName,String lastName,String Id,String password)
     {
-
         try {
-
             ContentValues newValues = new ContentValues();
             // Assign values for each column.
             newValues.put("FIRSTNAME", firstName);
             newValues.put("LASTNAME", lastName);
             newValues.put("USERNAME", Id);
             newValues.put("PASSWORD", password);
-
 
             // Insert the row into your table
             db = dbHelper.getWritableDatabase();
@@ -100,21 +97,6 @@ public class LoginDatabaseAdapter {
         return numberOFEntriesDeleted;
 
     }
-
-    // method to get the password  of userName
-    public String getSinlgeEntry(String userName)
-    {
-
-        db=dbHelper.getReadableDatabase();
-        Cursor cursor=db.query("LOGIN", null, "USERNAME=?", new String[]{userName}, null, null, null);
-        if(cursor.getCount()<1) // UserName Not Exist
-            return "NOT EXIST";
-        cursor.moveToFirst();
-        getPassword= cursor.getString(cursor.getColumnIndex("PASSWORD"));
-        return getPassword;
-
-
-    }
     // Method to Update an Existing
     public void  updateEntry(String userName,String password)
     {
@@ -129,25 +111,26 @@ public class LoginDatabaseAdapter {
 
     }
 
-
-
-    public Cursor getrecords()
-
+    // method to get the password  of userName
+    public String getSinlgeEntry(String userName)
     {
 
+        db=dbHelper.getReadableDatabase();
+        Cursor cursor=db.query("LOGIN", null, "USERNAME=?", new String[]{userName}, null, null, null);
+        if(cursor.getCount()<1) // UserName Not Exist
+            return "NOT EXIST";
+        cursor.moveToFirst();
+        getPassword= cursor.getString(cursor.getColumnIndex("PASSWORD"));
+        return getPassword;
+    }
+
+    public Cursor getrecords()
+    {
         Cursor cursor = dbHelper.getReadableDatabase().query("SEMESTER1",
-
                 new String[] { "SUBJECT1", "CREDIT1", "GRADE1"},
-
                 null, null, null, null, null);
-
 
         //   cursor.moveToFirst();
         return cursor;
-
     }
-
-
-
-
 }
